@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIHAAN MATHUR — HAPPY BIRTHDAY 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --o:#ff4d00;--y:#ffd000;--p:#ff1f6b;--c:#00ffe0;--v:#c084fc;
+  --dark:#020208;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:#fff;font-family:'Barlow',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh;}
+
+/* CURSOR */
+.cursor{position:fixed;width:16px;height:16px;background:var(--y);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .15s,width .2s,height .2s;}
+.cursor.big{width:50px;height:50px;}
+.cursor-ring{position:fixed;width:44px;height:44px;border:2px solid rgba(255,208,0,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:left .1s,top .1s,border-color .3s;}
+@media(hover:none)and(pointer:coarse){.cursor,.cursor-ring{display:none!important;}body{cursor:auto;}}
+
+/* CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+/* NOISE */
+.noise{position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:4;opacity:.4;}
+
+/* TICKER */
+.ticker{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,var(--o),var(--p),var(--o));background-size:200%;animation:tickerBg 4s linear infinite;padding:11px 0;overflow:hidden;z-index:200;}
+@keyframes tickerBg{0%{background-position:0%}100%{background-position:200%}}
+.ticker-inner{display:flex;white-space:nowrap;animation:tickScroll 22s linear infinite;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#fff;}
+.ticker-inner span{padding:0 28px;}
+@keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ============================================================
+   GATE
+   ============================================================ */
+#gate{
+  position:fixed;inset:0;z-index:500;
+  background:radial-gradient(ellipse at 60% 40%,rgba(255,77,0,.12) 0%,transparent 70%),
+             radial-gradient(ellipse at 20% 80%,rgba(192,132,252,.1) 0%,transparent 60%),
+             var(--dark);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;text-align:center;
+  transition:opacity 1s cubic-bezier(.4,0,.2,1),transform 1s cubic-bezier(.4,0,.2,1);
+}
+#gate.hide{opacity:0;transform:scale(1.08) translateY(-30px);pointer-events:none;}
+
+/* floating orbs on gate */
+.g-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;}
+.g-orb1{width:300px;height:300px;background:rgba(255,77,0,.15);top:-80px;right:-60px;animation:orbDrift 7s ease-in-out infinite;}
+.g-orb2{width:250px;height:250px;background:rgba(192,132,252,.12);bottom:-60px;left:-40px;animation:orbDrift 9s ease-in-out infinite reverse;}
+.g-orb3{width:180px;height:180px;background:rgba(0,255,224,.08);top:40%;left:10%;animation:orbDrift 6s ease-in-out infinite .5s;}
+@keyframes orbDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+
+.gate-icon{font-size:70px;margin-bottom:28px;animation:iconPulse 2.5s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(255,208,0,.6));}
+@keyframes iconPulse{0%,100%{transform:scale(1) rotate(-5deg)}50%{transform:scale(1.12) rotate(5deg)}}
+
+.gate-title{
+  font-family:'Black Ops One',cursive;
+  font-size:clamp(32px,9vw,72px);
+  line-height:.95;margin-bottom:8px;
+  background:linear-gradient(135deg,#fff 0%,var(--y) 50%,var(--o) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:titleGlow 3s ease-in-out infinite;
+}
+@keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 20px rgba(255,208,0,.4))}50%{filter:drop-shadow(0 0 40px rgba(255,208,0,.8))}}
+
+.gate-sub{font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:56px;}
+
+.gate-input-wrap{position:relative;width:100%;max-width:420px;}
+.gate-input{
+  width:100%;background:rgba(255,255,255,.03);
+  border:2px solid rgba(255,77,0,.25);border-radius:16px;
+  padding:22px 32px;font-family:'Barlow Condensed',sans-serif;
+  font-size:24px;font-weight:800;letter-spacing:4px;text-transform:uppercase;
+  color:#fff;text-align:center;outline:none;
+  transition:border-color .3s,box-shadow .3s,background .3s;
+}
+.gate-input::placeholder{color:rgba(255,255,255,.18);letter-spacing:2px;}
+.gate-input:focus{border-color:var(--o);box-shadow:0 0 0 4px rgba(255,77,0,.12),0 0 50px rgba(255,77,0,.2);background:rgba(255,77,0,.04);}
+
+.gate-btn{
+  margin-top:18px;font-family:'Black Ops One',cursive;font-size:17px;letter-spacing:3px;
+  text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,var(--o),var(--p));
+  border:none;border-radius:60px;padding:20px 56px;cursor:pointer;
+  box-shadow:0 0 50px rgba(255,77,0,.4),0 4px 30px rgba(255,31,107,.3);
+  transition:transform .2s,box-shadow .3s;width:100%;max-width:420px;
+  position:relative;overflow:hidden;
+}
+.gate-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .6s;}
+.gate-btn:hover::after{transform:translateX(100%);}
+.gate-btn:hover{transform:scale(1.04);box-shadow:0 0 80px rgba(255,77,0,.6),0 8px 50px rgba(255,31,107,.4);}
+.gate-btn:active{transform:scale(.97);}
+
+.gate-error{margin-top:20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--p);opacity:0;transition:opacity .4s;height:22px;}
+.gate-error.show{opacity:1;}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-12px)}30%{transform:translateX(12px)}45%{transform:translateX(-8px)}60%{transform:translateX(8px)}75%{transform:translateX(-4px)}90%{transform:translateX(4px)}}
+.wrong{animation:wrongShake .5s ease both;border-color:var(--p)!important;}
+
+/* ============================================================
+   TRANSITION OVERLAY
+   ============================================================ */
+#transition-overlay{
+  position:fixed;inset:0;z-index:450;
+  background:var(--o);
+  clip-path:circle(0% at 50% 50%);
+  transition:clip-path .8s cubic-bezier(.77,0,.18,1);
+  pointer-events:none;
+}
+#transition-overlay.expand{clip-path:circle(150% at 50% 50%);}
+#transition-overlay.shrink{clip-path:circle(0% at 50% 50%);}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+#main-content{display:none;position:relative;}
+#main-content.visible{display:block;}
+
+/* HERO */
+.hero{
+  position:relative;z-index:10;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:100px 24px 60px;text-align:center;overflow:hidden;
+}
+
+/* animated gradient bg behind hero */
+.hero-bg{
+  position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,77,0,.18) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 80%,rgba(192,132,252,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 60%,rgba(0,255,224,.07) 0%,transparent 60%);
+  animation:heroBgPulse 6s ease-in-out infinite;
+}
+@keyframes heroBgPulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+.hero-stripe{
+  position:absolute;inset:0;z-index:-1;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 60px,rgba(255,77,0,.02) 60px,rgba(255,77,0,.02) 62px);
+}
+
+/* GLITCH title */
+.hero-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:8px;text-transform:uppercase;color:var(--c);margin-bottom:24px;
+  animation:eyeIn 1s cubic-bezier(.22,1,.36,1) .3s both;
+}
+@keyframes eyeIn{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-name-wrap{position:relative;line-height:.85;}
+.hero-name{
+  font-family:'Black Ops One',cursive;
+  font-size:clamp(80px,20vw,220px);
+  text-transform:uppercase;
+  animation:nameBlast 1s cubic-bezier(.22,1,.36,1) .5s both;
+  position:relative;display:inline-block;
+}
+@keyframes nameBlast{from{opacity:0;transform:scale(1.3) translateY(40px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.line-vihaan{
+  display:block;
+  -webkit-text-stroke:3px var(--o);color:transparent;
+  filter:drop-shadow(0 0 30px rgba(255,77,0,.7)) drop-shadow(0 0 60px rgba(255,77,0,.4));
+  animation:glitchLoop 4s steps(1) 2s infinite;
+}
+@keyframes glitchLoop{
+  0%,90%,100%{text-shadow:none;}
+  92%{text-shadow:-4px 0 var(--p),4px 0 var(--c);}
+  94%{text-shadow:4px 0 var(--p),-4px 0 var(--c);}
+  96%{text-shadow:-2px 0 var(--y),2px 0 var(--v);}
+  98%{text-shadow:2px 0 var(--o),-2px 0 var(--p);}
+}
+
+.line-mathur{
+  display:block;color:#fff;
+  text-shadow:6px 6px 0 var(--o),12px 12px 0 rgba(255,77,0,.3);
+  animation:mathurIn 1s cubic-bezier(.22,1,.36,1) .7s both;
+}
+@keyframes mathurIn{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+
+.hero-sub{
+  font-family:'Barlow Condensed',sans-serif;font-size:clamp(20px,5vw,52px);
+  font-weight:900;text-transform:uppercase;letter-spacing:6px;margin-top:20px;
+  background:linear-gradient(90deg,var(--y),var(--p),var(--c),var(--v),var(--y));
+  background-size:400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradFlow 3s linear infinite,subIn .8s cubic-bezier(.22,1,.36,1) .9s both;
+}
+@keyframes gradFlow{0%{background-position:0%}100%{background-position:400%}}
+@keyframes subIn{from{opacity:0;letter-spacing:20px}to{opacity:1;letter-spacing:6px}}
+
+/* floating emojis in hero */
+.float-emoji{position:absolute;font-size:32px;animation:floatUp var(--d) ease-in-out infinite var(--dl);opacity:.6;pointer-events:none;user-select:none;}
+@keyframes floatUp{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-25px) rotate(10deg)}}
+
+/* scroll cue */
+.scroll-cue{margin-top:60px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);animation:bounce 2s ease-in-out infinite;}
+.scroll-arrow{font-size:20px;display:block;margin-top:6px;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* STATS */
+.stats-bar{position:relative;z-index:10;display:flex;justify-content:center;flex-wrap:wrap;gap:3px;padding:0 20px;margin-top:0;}
+.stat-pill{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:22px 32px;text-align:center;flex:1;min-width:130px;max-width:210px;
+  transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;
+  animation:pillIn .6s cubic-bezier(.22,1,.36,1) both;position:relative;overflow:hidden;
+}
+.stat-pill::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--o),transparent);transform:scaleX(0);transition:transform .4s;}
+.stat-pill:hover::before{transform:scaleX(1);}
+.stat-pill:hover{background:rgba(255,77,0,.08);border-color:rgba(255,77,0,.3);transform:translateY(-8px);box-shadow:0 20px 40px rgba(255,77,0,.15);}
+.stat-pill:nth-child(1){animation-delay:.1s}
+.stat-pill:nth-child(2){animation-delay:.2s}
+.stat-pill:nth-child(3){animation-delay:.3s}
+.stat-pill:nth-child(4){animation-delay:.4s}
+@keyframes pillIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.stat-num{font-family:'Black Ops One',cursive;font-size:40px;color:var(--y);line-height:1;text-shadow:0 0 24px rgba(255,208,0,.5);}
+.stat-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px;}
+
+/* SECTION WRAPPER */
+.section-wrap{position:relative;z-index:10;max-width:860px;margin:100px auto 0;padding:0 24px;}
+
+/* SECTION TAG */
+.s-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;
+  letter-spacing:5px;text-transform:uppercase;
+  background:var(--o);color:#000;padding:8px 20px;border-radius:4px;margin-bottom:32px;
+}
+.s-tag.teal{background:var(--c);color:#000;}
+
+/* MESSAGE BOX */
+.msg-box{
+  border-left:4px solid var(--o);
+  background:rgba(255,77,0,.04);
+  border-radius:0 16px 16px 0;
+  padding:40px 44px;text-align:left;position:relative;overflow:hidden;
+}
+.msg-box::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,77,0,.05) 0%,transparent 60%);pointer-events:none;}
+.msg-box p{font-size:18px;line-height:1.9;color:rgba(255,255,255,.82);font-weight:300;}
+.msg-box p strong{color:var(--y);font-weight:800;}
+.msg-box p .hot{color:var(--o);font-weight:600;}
+
+/* SORRY BOX */
+.sorry-box{
+  border-left:4px solid var(--c);
+  background:rgba(0,255,224,.03);
+  border-radius:0 16px 16px 0;
+  padding:40px 44px;text-align:left;position:relative;overflow:hidden;
+}
+.sorry-box::before{content:'💔';position:absolute;top:20px;right:28px;font-size:80px;opacity:.1;animation:heartbeat 2s ease-in-out infinite;pointer-events:none;}
+@keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.15)}28%{transform:scale(1)}42%{transform:scale(1.1)}70%{transform:scale(1)}}
+.sorry-box p{font-size:18px;line-height:1.9;color:rgba(255,255,255,.82);font-weight:300;}
+.sorry-box p strong{color:var(--c);font-weight:800;}
+.sorry-box p .soft{color:rgba(255,255,255,.5);font-style:italic;}
+
+/* HYPE CARDS */
+.hype-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px;}
+.hype-card{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:18px;padding:32px 24px;text-align:center;
+  transition:transform .3s,background .3s,border-color .3s,box-shadow .3s;
+  position:relative;overflow:hidden;cursor:default;
+}
+.hype-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,208,0,.08) 0%,transparent 70%);opacity:0;transition:opacity .3s;}
+.hype-card:hover::before{opacity:1;}
+.hype-card:hover{transform:translateY(-10px) scale(1.02);background:rgba(255,208,0,.05);border-color:rgba(255,208,0,.25);box-shadow:0 24px 60px rgba(255,208,0,.1);}
+.hype-emoji{font-size:46px;display:block;margin-bottom:16px;animation:cardEmoji var(--ea) ease-in-out infinite;}
+@keyframes cardEmoji{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.15) rotate(5deg)}}
+.hype-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:10px;}
+.hype-text{font-size:13px;color:rgba(255,255,255,.45);line-height:1.65;}
+
+/* FIRE BUTTON */
+.action-section{position:relative;z-index:10;text-align:center;padding:90px 24px 120px;}
+.fire-btn{
+  font-family:'Black Ops One',cursive;font-size:22px;letter-spacing:4px;
+  text-transform:uppercase;color:#fff;
+  background:linear-gradient(135deg,var(--o) 0%,var(--p) 50%,var(--v) 100%);
+  background-size:200%;
+  border:none;border-radius:80px;padding:26px 72px;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .3s,background-position .5s;
+  box-shadow:0 0 60px rgba(255,77,0,.5),0 10px 50px rgba(255,31,107,.3),0 0 120px rgba(255,77,0,.2);
+  animation:btnPulse 2.5s ease-in-out infinite;
+}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 60px rgba(255,77,0,.5),0 10px 50px rgba(255,31,107,.3)}50%{box-shadow:0 0 100px rgba(255,77,0,.7),0 10px 80px rgba(255,31,107,.5),0 0 200px rgba(255,77,0,.3)}}
+.fire-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .5s;}
+.fire-btn:hover::before{transform:translateX(100%);}
+.fire-btn:hover{transform:scale(1.08);background-position:100%;}
+.fire-btn:active{transform:scale(.96);}
+.btn-sub{display:block;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:4px;color:rgba(255,255,255,.3);margin-top:20px;text-transform:uppercase;}
+
+/* FOOTER */
+footer{position:relative;z-index:10;border-top:1px solid rgba(255,255,255,.06);text-align:center;padding:44px 24px;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,.18);text-transform:uppercase;}
+footer span{color:var(--p);animation:heartbeat 2s ease-in-out infinite;}
+
+/* REVEAL ON SCROLL */
+.reveal{opacity:0;transform:translateY(60px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-60px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);}
+.reveal-left.in{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(60px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);}
+.reveal-right.in{opacity:1;transform:translateX(0);}
+
+/* shake animation */
+@keyframes shakeBig{0%,100%{transform:scale(1)}20%{transform:scale(1.1) rotate(-3deg)}40%{transform:scale(1.12) rotate(3deg)}60%{transform:scale(1.08) rotate(-2deg)}80%{transform:scale(1.06) rotate(2deg)}}
+.shake{animation:shakeBig .5s ease both;}
+
+/* CONFETTI rain */
+.confetti-piece{position:fixed;width:10px;height:10px;top:-20px;pointer-events:none;z-index:300;border-radius:2px;animation:confettiFall var(--cd) linear var(--cde) both;}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg) translateX(0);opacity:1;}100%{transform:translateY(110vh) rotate(720deg) translateX(var(--cx));opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NOISE -->
+<div class="noise"></div>
+
+<!-- CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- =========================================================
+     GATE
+     ========================================================= -->
+<div id="gate">
+  <div class="g-orb g-orb1"></div>
+  <div class="g-orb g-orb2"></div>
+  <div class="g-orb g-orb3"></div>
+
+  <div class="gate-icon">🔐</div>
+  <div class="gate-title">WHO'S<br>THERE?</div>
+  <div class="gate-sub">This page is locked — enter your name</div>
+
+  <div class="gate-input-wrap">
+    <input class="gate-input" id="nameInput" type="text" placeholder="YOUR NAME..." maxlength="30" autocomplete="off"/>
+  </div>
+  <button class="gate-btn" onclick="checkName()">UNLOCK 🔓</button>
+  <div class="gate-error" id="gateErr">❌ &nbsp; Hmm... that's not the right name. Try again!</div>
+</div>
+
+<!-- TRANSITION OVERLAY -->
+<div id="transition-overlay"></div>
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+<div id="main-content">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-stripe"></div>
+
+    <!-- floating emojis -->
+    <span class="float-emoji" style="top:15%;left:6%;--d:3.2s;--dl:0s">🎉</span>
+    <span class="float-emoji" style="top:20%;right:8%;--d:2.8s;--dl:.4s">🎂</span>
+    <span class="float-emoji" style="top:70%;left:4%;--d:3.6s;--dl:.8s">🔥</span>
+    <span class="float-emoji" style="top:75%;right:5%;--d:2.5s;--dl:.2s">👑</span>
+    <span class="float-emoji" style="top:45%;left:2%;--d:4s;--dl:1s">🚀</span>
+    <span class="float-emoji" style="top:40%;right:3%;--d:3s;--dl:.6s">💥</span>
+    <span class="float-emoji" style="top:85%;left:15%;--d:2.9s;--dl:.3s">🎊</span>
+    <span class="float-emoji" style="top:10%;right:20%;--d:3.4s;--dl:.9s">⚡</span>
+
+    <div class="hero-eyebrow">🔥 Birthday Mode — ACTIVATED 🔥</div>
+    <div class="hero-name-wrap">
+      <div class="hero-name">
+        <span class="line-vihaan">VIHAAN</span>
+        <span class="line-mathur">MATHUR</span>
+      </div>
+    </div>
+    <div class="hero-sub">HAPPY BIRTHDAY BRO 🎂</div>
+
+    <div class="scroll-cue">
+      Scroll down bro
+      <span class="scroll-arrow">↓</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar" style="position:relative;z-index:10;padding:0 20px;">
+    <div class="stat-pill"><div class="stat-num">15</div><div class="stat-label">Years of Greatness</div></div>
+    <div class="stat-pill"><div class="stat-num">365</div><div class="stat-label">Days Since Last Bday</div></div>
+    <div class="stat-pill"><div class="stat-num">∞</div><div class="stat-label">Memories Made</div></div>
+    <div class="stat-pill"><div class="stat-num">#1</div><div class="stat-label">Best Friend</div></div>
+  </div>
+
+  <!-- BIRTHDAY MESSAGE -->
+  <section class="section-wrap reveal">
+    <div class="s-tag">The Real Talk 🔥</div>
+    <div class="msg-box">
+      <p>
+        Bro, real talk — <strong>Vihaan Mathur</strong> is BUILT DIFFERENT. 🔥<br><br>
+        Every year you level up harder than the last. You're not just my best friend —
+        you're the kind of person who makes every room <span class="hot">10x more fun</span>,
+        every plan <span class="hot">way crazier</span>, and every memory <strong>completely unforgettable</strong>.<br><br>
+        On your birthday, I just wanna say — <strong>bro, you deserve it ALL.</strong>
+        The success, the laughs, the absolute chaos we always end up creating together.
+        This year? We're going <span class="hot">EVEN HARDER.</span> 🚀<br><br>
+        Happy Birthday legend. Stay undefeated. 👑
+      </p>
+    </div>
+  </section>
+
+  <!-- SORRY MESSAGE -->
+  <section class="section-wrap reveal" style="margin-top:60px;">
+    <div class="s-tag teal">A Real Apology 💔</div>
+    <div class="sorry-box">
+      <p>
+        Bro… there's something I gotta say and it's been heavy on my heart. 😔<br><br>
+        I'm <strong>so sorry</strong> I can't be there with you on your birthday. Trust me,
+        there's <strong>nowhere else I'd rather be</strong> than celebrating with you in person — you know that.
+        It genuinely kills me that I'm missing this.<br><br>
+        But know this — <span class="soft">distance doesn't change a single thing between us.</span>
+        You're my day one, my ride or die, my brother. This website is my way of showing up
+        for you even when I physically can't. <strong>You're celebrated, bro. Loudly. From right here.</strong><br><br>
+        We're making up for it DOUBLE when I see you. That's a promise. 🤝💛
+      </p>
+    </div>
+  </section>
+
+  <!-- HYPE CARDS -->
+  <section class="section-wrap reveal" style="max-width:980px;margin-top:80px;">
+    <div class="s-tag">Why You're Built Different</div>
+    <div class="hype-grid">
+      <div class="hype-card reveal-left" style="--ea:2s;">
+        <span class="hype-emoji">👑</span>
+        <div class="hype-title">Main Character</div>
+        <div class="hype-text">Walks into any room and automatically becomes the most legendary person there. Always.</div>
+      </div>
+      <div class="hype-card reveal" style="--ea:2.4s;transition-delay:.1s;">
+        <span class="hype-emoji">🚀</span>
+        <div class="hype-title">Always Levelling</div>
+        <div class="hype-text">Every year Vihaan 2.0 drops and it's always a massive upgrade over the last version.</div>
+      </div>
+      <div class="hype-card reveal" style="--ea:1.8s;transition-delay:.2s;">
+        <span class="hype-emoji">🔥</span>
+        <div class="hype-title">Pure Energy</div>
+        <div class="hype-text">Zero dull moments. If Vihaan's there, the vibe is automatically locked at 100.</div>
+      </div>
+      <div class="hype-card reveal-right" style="--ea:2.2s;">
+        <span class="hype-emoji">💯</span>
+        <div class="hype-title">Day One Real</div>
+        <div class="hype-text">Loyalty? Never questioned. Realest friend you'll ever have — no cap, no competition.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIG BUTTON -->
+  <section class="action-section">
+    <button class="fire-btn" id="hypeBtn" onclick="bigBang()">🎆 LAUNCH THE HYPE 🎆</button>
+    <span class="btn-sub">Tap to go absolutely crazy</span>
+  </section>
+
+  <footer>
+    Made with <span>♥</span> for Vihaan Mathur &nbsp;·&nbsp; Your Best Friend — Always &amp; Forever
+  </footer>
+
+</div><!-- /main-content -->
+
+<script>
+/* ============================================================
+   CURSOR
+   ============================================================ */
+const cursorEl = document.getElementById('cursor');
+const ringEl   = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursorEl.style.left=mx+'px';cursorEl.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('button,a,.hype-card,.stat-pill').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursorEl.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{cursorEl.classList.remove('big');});
+});
+
+/* ============================================================
+   TICKER
+   ============================================================ */
+const tickerEl=document.getElementById('ticker');
+const tm='🔥 HAPPY BIRTHDAY VIHAAN MATHUR 🔥 &nbsp;&nbsp; 🎂 YOU ARE THE GOAT BRO 🎂 &nbsp;&nbsp; 👑 STAY LEGENDARY 👑 &nbsp;&nbsp; 🚀 BUILT DIFFERENT 🚀 &nbsp;&nbsp; 💥 TURN UP 💥 &nbsp;&nbsp; ⚡ 15 AND UNSTOPPABLE ⚡ &nbsp;&nbsp; ';
+let tf='';for(let i=0;i<4;i++)tf+=`<span>${tm}</span>`;
+tickerEl.innerHTML=tf;
+
+/* ============================================================
+   PARTICLES BG (always on)
+   ============================================================ */
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+
+// ambient floating particles (always visible)
+const ambients=[];
+for(let i=0;i<60;i++){
+  ambients.push({
+    x:Math.random()*window.innerWidth,
+    y:Math.random()*window.innerHeight,
+    r:Math.random()*2+.5,
+    vx:(Math.random()-.5)*.3,
+    vy:-(Math.random()*.4+.1),
+    alpha:Math.random()*.4+.1,
+    color:['#ff4d00','#ffd000','#ff1f6b','#00ffe0','#c084fc'][Math.floor(Math.random()*5)]
+  });
+}
+
+// fireworks
+const fw_colors=['#ff4d00','#ffd000','#ff1f6b','#00ffe0','#ffffff','#ff9500','#c084fc','#60efff'];
+const fwParticles=[];
+
+class FWParticle{
+  constructor(x,y,isRocket){
+    this.x=x;this.y=y;this.isRocket=isRocket;
+    if(isRocket){
+      this.vx=(Math.random()-.5)*2.5;
+      this.vy=-(10+Math.random()*8);
+      this.color=fw_colors[Math.floor(Math.random()*fw_colors.length)];
+      this.size=3.5;this.life=1;this.decay=.014;this.gravity=.2;
+      this.trail=[];
+      this.targetY=canvas.height*(.05+Math.random()*.4);
+    }else{
+      const angle=Math.random()*Math.PI*2;
+      const speed=2+Math.random()*8;
+      this.vx=Math.cos(angle)*speed;this.vy=Math.sin(angle)*speed;
+      this.color=fw_colors[Math.floor(Math.random()*fw_colors.length)];
+      this.size=1.5+Math.random()*3;this.life=1;
+      this.decay=.008+Math.random()*0.018;this.gravity=.09;
+      this.spin=Math.random()>.5;
+      this.type=Math.random()>.7?'star':'circle';
+    }
+  }
+  update(){
+    if(this.isRocket){this.trail.push({x:this.x,y:this.y});if(this.trail.length>14)this.trail.shift();}
+    this.x+=this.vx;this.y+=this.vy;this.vy+=this.gravity;this.life-=this.decay;
+    if(!this.isRocket){this.vx*=.98;}
+  }
+  draw(){
+    ctx.globalAlpha=Math.max(0,this.life);
+    if(this.isRocket&&this.trail.length>1){
+      for(let i=1;i<this.trail.length;i++){
+        ctx.globalAlpha=Math.max(0,this.life*(i/this.trail.length)*.6);
+        ctx.beginPath();ctx.moveTo(this.trail[i-1].x,this.trail[i-1].y);ctx.lineTo(this.trail[i].x,this.trail[i].y);
+        ctx.strokeStyle=this.color;ctx.lineWidth=2.5;ctx.shadowColor=this.color;ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
+      }
+    }
+    ctx.globalAlpha=Math.max(0,this.life);
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle=this.color;ctx.shadowColor=this.color;
+    ctx.shadowBlur=this.isRocket?20:10;ctx.fill();ctx.shadowBlur=0;ctx.globalAlpha=1;
+  }
+}
+
+function explode(x,y){
+  const n=100+Math.floor(Math.random()*60);
+  for(let i=0;i<n;i++)fwParticles.push(new FWParticle(x,y,false));
+}
+
+let fwAnimating=false;
+function mainLoop(){
+  // clear with trail effect
+  ctx.fillStyle='rgba(2,2,8,.18)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // ambient dots
+  ambients.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.y<-10)p.y=canvas.height+10;
+    if(p.x<-10)p.x=canvas.width+10;
+    if(p.x>canvas.width+10)p.x=-10;
+    ctx.globalAlpha=p.alpha;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=6;ctx.fill();ctx.shadowBlur=0;
+  });
+  ctx.globalAlpha=1;
+
+  // fireworks
+  for(let i=fwParticles.length-1;i>=0;i--){
+    const p=fwParticles[i];p.update();
+    if(p.isRocket&&p.y<=p.targetY){explode(p.x,p.y);fwParticles.splice(i,1);continue;}
+    if(p.life<=0){fwParticles.splice(i,1);continue;}
+    p.draw();
+  }
+
+  requestAnimationFrame(mainLoop);
+}
+mainLoop();
+
+function launchRocket(){fwParticles.push(new FWParticle(60+Math.random()*(canvas.width-120),canvas.height,true));}
+
+function startFireworks(count,interval){
+  let fired=0;
+  const id=setInterval(()=>{
+    launchRocket();fired++;
+    if(fired>=count)clearInterval(id);
+  },interval);
+}
+
+/* ============================================================
+   CONFETTI RAIN
+   ============================================================ */
+function launchConfetti(){
+  const colors=['#ff4d00','#ffd000','#ff1f6b','#00ffe0','#c084fc','#fff','#ff9500'];
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti-piece';
+    const size=6+Math.random()*10;
+    c.style.cssText=`
+      left:${Math.random()*100}vw;
+      width:${size}px;height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      --cd:${2+Math.random()*3}s;
+      --cde:${Math.random()*1.5}s;
+      --cx:${(Math.random()-.5)*200}px;
+      transform:rotate(${Math.random()*360}deg);
+    `;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),(4+Math.random()*3)*1000);
+  }
+}
+
+/* ============================================================
+   NAME GATE
+   ============================================================ */
+const VALID=['vihaan','vihaan mathur'];
+
+function checkName(){
+  const val=document.getElementById('nameInput').value.trim().toLowerCase();
+  const errEl=document.getElementById('gateErr');
+  const inp=document.getElementById('nameInput');
+
+  if(VALID.includes(val)){
+    // CORRECT — epic transition
+    const overlay=document.getElementById('transition-overlay');
+    overlay.classList.add('expand');
+
+    setTimeout(()=>{
+      document.getElementById('gate').classList.add('hide');
+      document.getElementById('main-content').classList.add('visible');
+    },400);
+
+    setTimeout(()=>{
+      overlay.classList.remove('expand');
+      overlay.classList.add('shrink');
+    },700);
+
+    setTimeout(()=>{
+      overlay.classList.remove('shrink');
+      // BOOM — fireworks + confetti on unlock
+      startFireworks(30,250);
+      launchConfetti();
+      initReveal();
+    },1100);
+
+  }else{
+    errEl.classList.add('show');
+    inp.classList.remove('wrong');void inp.offsetWidth;inp.classList.add('wrong');
+    setTimeout(()=>{errEl.classList.remove('show');},3000);
+    setTimeout(()=>{inp.classList.remove('wrong');},520);
+  }
+}
+
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkName();});
+
+/* ============================================================
+   BIG BANG BUTTON
+   ============================================================ */
+function bigBang(){
+  const btn=document.getElementById('hypeBtn');
+  btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');
+  startFireworks(45,160);
+  launchConfetti();
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+function initReveal(){
+  const els=document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+  },{threshold:.12});
+  els.forEach(el=>obs.observe(el));
+}
+</script>
+</body>
+</html>
